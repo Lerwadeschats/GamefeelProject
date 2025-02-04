@@ -46,9 +46,13 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 _laser.OnActivation();
+            }
+            else if(Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                _laser.OnCancel();
             }
         }
 
