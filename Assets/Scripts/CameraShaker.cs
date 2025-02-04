@@ -7,17 +7,13 @@ namespace TCG.Dialogues.Core.Camera
     {
         public static CameraShaker Instance { get; private set; } = null;
 
-        [SerializeField] private float _shakePeriod = 0.05f;
-
-        public bool IsShaking { get; private set; } = false;
+        [SerializeField] private float _shakePeriod;
 
 
-        [SerializeField] float _shakePower = 1f;
+        [SerializeField] float _baseShakePower = 1f;
 
-        [SerializeField] float _shakeDuration = 0.5f;
+        [SerializeField] float _baseShakeDuration = 0.5f;
         
-
-        private Vector3 _shakeOffset = Vector3.zero;
 
         private void Awake()
         {
@@ -30,31 +26,20 @@ namespace TCG.Dialogues.Core.Camera
 
         private void StartShaking()
         {
-            StartCoroutine(_UpdateShake());
+            StartCoroutine(_UpdateShake(_baseShakePower, _baseShakeDuration));
         }
-
-        public void Shake(float power, float duration)
+        public void StartShaking(float shakePower,float shakeDuration)
         {
-            _shakePower = power;
-            _shakeDuration = duration;
-            IsShaking = true;
+            StartCoroutine(_UpdateShake(shakePower, shakeDuration));
         }
-
-        public void ShakeStop()
-        {
-            transform.position -= _shakeOffset;
-            _shakeOffset = Vector3.zero;
-            IsShaking = false;
-        }
-
-        IEnumerator _UpdateShake()
+        IEnumerator _UpdateShake(float shakePower,float shakeDuration )
         {
             float timer = 0;
             Vector3 OriginalPos = transform.localPosition;
-            while(timer< _shakeDuration)
+            while(timer< shakeDuration)
             {
-                float x = Random.Range(-10, 10) * _shakePower;
-                float y= Random.Range(-10, 10) * _shakePower;
+                float x = Random.Range(-10, 10) * shakePower;
+                float y= Random.Range(-10, 10) * shakePower;
 
                 transform.localPosition = new Vector3(x, y, OriginalPos.z);
                 timer += _shakePeriod;

@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shakePeriod: 0.01
-  _shakePower: 0.1
+  _shakePower: 0.07
   _shakeDuration: 0.2
 --- !u!1 &879569042
 GameObject:
