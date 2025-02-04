@@ -6,8 +6,9 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float deadzone = 0.3f;
     [SerializeField] private float speed = 1f;
-
+    [SerializeField] private int health = 3;
     [SerializeField] private Bullet bulletPrefab = null;
+    [SerializeField] private LifeUI lifeUI;
     [SerializeField] private Transform shootAt = null;
     [SerializeField] private float shootCooldown = 1f;
     [SerializeField] private string collideWithTag = "Untagged";
@@ -44,11 +45,31 @@ public class Player : MonoBehaviour
         Instantiate(bulletPrefab, shootAt.position, Quaternion.identity);
         lastShootTimestamp = Time.time;
     }
-
+    void UpdateHealth()
+    {
+        health--;
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        lifeUI.UpdateDisplay();
+        if (health == 0)
+        {
+            GameManager.Instance.PlayGameOver();
+        }
+        else
+        {
+            StartCoroutine(Respawn());
+        }
+    }
+    IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(.5f);
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        gameObject.transform.position = new Vector3(0, -4, 0);
+        yield return null;
+    }
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag != collideWithTag) { return; }
 
-        GameManager.Instance.PlayGameOver();
+        UpdateHealth();
     }
 }
