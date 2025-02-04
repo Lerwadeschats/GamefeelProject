@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    Collider2D _collider;
+    GameObject _beam;
 
     [SerializeField]
     float _chargingTime = 3f;
@@ -19,8 +19,8 @@ public class Laser : MonoBehaviour
 
     private void Awake()
     {
-        _collider = GetComponent<Collider2D>();
-        _collider.enabled = false;
+        _beam = transform.Find("Beam").gameObject;
+        _beam.SetActive(false);
     }
     public void OnActivation()
     {
@@ -56,8 +56,9 @@ public class Laser : MonoBehaviour
 
     IEnumerator ActivationDuration()
     {
-        _collider.enabled = true;
+        _beam.SetActive(true);
+
         yield return new WaitForSeconds(_duration);
-        _collider.enabled = false;
+        _beam.SetActive(false);
     }
 }
