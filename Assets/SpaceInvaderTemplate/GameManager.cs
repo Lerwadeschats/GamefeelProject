@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UIElements;
 
 [DefaultExecutionOrder(-100)]
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float gameOverHeight;
 
+    [SerializeField] UnityEvent _onGameOver;
     void Awake()
     {
         Instance = this;
@@ -71,7 +73,8 @@ public class GameManager : MonoBehaviour
     public void PlayGameOver()
     {
         Debug.Log("Game Over");
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
+        _onGameOver.Invoke();
     }
 
     public void OnDrawGizmos()

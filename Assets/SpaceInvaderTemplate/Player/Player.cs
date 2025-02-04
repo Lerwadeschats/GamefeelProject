@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 
 public class Player : MonoBehaviour
 {
@@ -14,6 +16,12 @@ public class Player : MonoBehaviour
     [SerializeField] private string collideWithTag = "Untagged";
 
     [SerializeField] private Laser _laser;
+
+    [SerializeField] UnityEvent _onShoot;
+    [SerializeField] UnityEvent _onDamageTaken;
+    [SerializeField] UnityEvent _onDeath;
+    [SerializeField] UnityEvent _onRespawn;
+
 
     private float lastShootTimestamp = Mathf.NegativeInfinity;
 
@@ -59,20 +67,24 @@ public class Player : MonoBehaviour
 
     void Shoot()
     {
+        _onShoot.Invoke();
         Instantiate(bulletPrefab, shootAt.position, Quaternion.identity);
         lastShootTimestamp = Time.time;
     }
     void UpdateHealth()
     {
+        _onDamageTaken.Invoke();
         health--;
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         lifeUI.UpdateDisplay();
         if (health == 0)
         {
+            _onDeath.Invoke();
             GameManager.Instance.PlayGameOver();
         }
         else
         {
+            _onRespawn.Invoke();
             StartCoroutine(Respawn());
         }
     }
