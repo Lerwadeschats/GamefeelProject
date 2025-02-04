@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class Wave : MonoBehaviour
 {
@@ -40,6 +42,8 @@ public class Wave : MonoBehaviour
 
     float shootCooldown;
 
+    Vector2 origin = Vector2.zero;
+
     struct Column { public int id; public List<Invader> invaders; }
     struct Row { public int id; public List<Invader> invaders; }
 
@@ -49,11 +53,18 @@ public class Wave : MonoBehaviour
 
     void Awake()
     {
+        origin = transform.position;
         shootCooldown = timeBeforeFirstShoot;
+        SetupWave();
+    }
+
+    void SetupWave()
+    {
+        transform.position = origin;
 
         for (int i = 0; i < columns; i++)
         {
-            invaderPerColumn.Add(new() { id = i, invaders= new() });
+            invaderPerColumn.Add(new() { id = i, invaders = new() });
         }
         for (int i = 0; i < rows; i++)
         {
@@ -73,13 +84,15 @@ public class Wave : MonoBehaviour
                 invaderPerRow[j].invaders.Add(invader);
             }
         }
-        
     }
-
     void Update()
     {
-        UpdateMovement();
-        UpdateShoot();
+        if(invaders.Count > 0)
+        {
+            UpdateMovement();
+            UpdateShoot();
+        }
+        
     }
 
     private void UpdateShoot()
@@ -93,6 +106,7 @@ public class Wave : MonoBehaviour
 
         // One column is selected to shoot a bullet. Only the invader at the bottom of that column can shoot.
         int columnIndex = Random.Range(0, invaderPerColumn.Count);
+        
         invaderPerColumn[columnIndex].invaders[0].Shoot();
 
         shootCooldown += Random.Range(shootRandom.x, shootRandom.y);
@@ -214,6 +228,17 @@ public class Wave : MonoBehaviour
                 invaderPerRow[indexRow] = row;
             }
         }
+        if(invaders.Count == 0)
+        {
+            StartCoroutine(CooldownBeforeRespawn(2));
+        }
+    }
+
+    IEnumerator CooldownBeforeRespawn(float timeToWait)
+    {
+        yield return new WaitForSeconds(timeToWait);
+        SetupWave();
+        yield return null;
     }
 
     // Get position of an invader in the bounding box according to it's index
