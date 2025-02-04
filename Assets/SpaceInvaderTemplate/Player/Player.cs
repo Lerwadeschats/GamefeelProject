@@ -12,7 +12,14 @@ public class Player : MonoBehaviour
     [SerializeField] private float shootCooldown = 1f;
     [SerializeField] private string collideWithTag = "Untagged";
 
+    [SerializeField] private Laser _laser;
+
     private float lastShootTimestamp = Mathf.NegativeInfinity;
+
+    private void Awake()
+    {
+        _laser = transform.Find("Laser").GetComponent<Laser>();
+    }
 
     void Update()
     {
@@ -37,6 +44,16 @@ public class Player : MonoBehaviour
         {
             Shoot();
         }
+        else
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                _laser.OnActivation();
+            }
+        }
+
+        
+
     }
 
     void Shoot()

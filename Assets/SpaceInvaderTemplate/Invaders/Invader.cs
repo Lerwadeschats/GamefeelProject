@@ -27,6 +27,8 @@ public class Invader : MonoBehaviour
     {
         if(collision.gameObject.tag != collideWithTag) { return; }
 
+
+
         Destroy(gameObject);
         Destroy(collision.gameObject);
     }
