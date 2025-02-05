@@ -228,7 +228,7 @@ public class Wave : MonoBehaviour
                 invaderPerRow[indexRow] = row;
             }
         }
-        if(invaders.Count == 0)
+        if(invaders.Count == 0&&gameObject.activeInHierarchy)
         {
             StartCoroutine(CooldownBeforeRespawn(2));
         }
