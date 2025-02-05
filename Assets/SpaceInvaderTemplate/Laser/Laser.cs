@@ -19,6 +19,7 @@ public class Laser : MonoBehaviour
 
     Coroutine _coroutine;
 
+    bool _isReady;
     
 
     private void Awake()
@@ -34,25 +35,34 @@ public class Laser : MonoBehaviour
 
     IEnumerator Charge()
     {
-        //Start effect
         yield return new WaitForSeconds(_chargingTime);
-        LaunchLaser();
-        yield return null;
+        _isReady = true;
+        EventManager.Instance.onLaserReady?.Invoke();
     }
 
-    void LaunchLaser()
+    public void OnRelease()
     {
-        _coroutine = null;
-        StartCoroutine(ActivationDuration());
-
-
+        if (_isReady)
+        {
+            _coroutine = null;
+            StartCoroutine(ActivationDuration());
+        }
+        else
+        {
+            if(_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+                _chargingEffect.Stop(true);
+            }
+        }
+        
     }
 
     IEnumerator ActivationDuration()
     {
         _beam.SetActive(true);
-
         yield return new WaitForSeconds(_duration);
         _beam.SetActive(false);
+        EventManager.Instance.onPlayerExhausted?.Invoke();
     }
 }

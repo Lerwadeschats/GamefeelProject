@@ -55,7 +55,7 @@ public class Wave : MonoBehaviour
     {
         origin = transform.position;
         shootCooldown = timeBeforeFirstShoot;
-        SetupWave();
+        
     }
 
     void SetupWave()
@@ -86,8 +86,13 @@ public class Wave : MonoBehaviour
                 invaderPerRow[j].invaders.Add(invader);
             }
         }
+        print(EventManager.Instance);
+        EventManager.Instance.onWaveSpawn?.Invoke();
+    }
 
-        EventManager.Instance.onWaveSpawn.Invoke();
+    private void Start()
+    {
+        SetupWave();
     }
     void Update()
     {
@@ -129,7 +134,7 @@ public class Wave : MonoBehaviour
         float delta = speed * Time.deltaTime;
         distance += delta;
 
-        EventManager.Instance.onWaveMovement.Invoke();
+        EventManager.Instance.onWaveMovement?.Invoke();
 
         switch (move)
         {

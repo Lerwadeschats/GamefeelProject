@@ -35,7 +35,7 @@ public class Invader : MonoBehaviour
         if (collision.gameObject.tag != collideWithTag) { return; }
 
 
-        EventManager.Instance.onEnemyDeathBullet.Invoke();
+        EventManager.Instance.onEnemyDeathBullet?.Invoke();
         Destroy(gameObject);
         Destroy(collision.gameObject);
     }
