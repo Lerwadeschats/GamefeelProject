@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-
-    Collider2D collider;
+    GameObject _beam;
 
     [SerializeField]
     float _chargingTime = 3f;
@@ -13,22 +12,28 @@ public class Laser : MonoBehaviour
     [SerializeField]
     float _duration = 0.5f;
 
+    [SerializeField]
+    ParticleSystem _chargingEffect;
+
     Coroutine _coroutine;
 
     private void Awake()
     {
-        collider = GetComponent<Collider2D>();
-        collider.enabled = false;
+        _beam = transform.Find("Beam").gameObject;
+        _beam.SetActive(false);
     }
     public void OnActivation()
     {
         _coroutine = StartCoroutine(Charge());
+        _chargingEffect.Play(true);
+        print("eznjfkea");
     }
 
     public void OnCancel()
     {
         if(_coroutine != null)
         {
+            _chargingEffect.Play(false);
             StopCoroutine(_coroutine);
         }
     }
@@ -44,13 +49,16 @@ public class Laser : MonoBehaviour
     void LaunchLaser()
     {
         _coroutine = null;
-        
+        StartCoroutine(ActivationDuration());
+
+
     }
 
     IEnumerator ActivationDuration()
     {
-        collider.enabled = true;
+        _beam.SetActive(true);
+
         yield return new WaitForSeconds(_duration);
-        collider.enabled = false;
+        _beam.SetActive(false);
     }
 }
