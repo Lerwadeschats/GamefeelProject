@@ -17,10 +17,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Laser _laser;
 
-    [SerializeField] UnityEvent _onShoot;
-    [SerializeField] UnityEvent _onDamageTaken;
-    [SerializeField] UnityEvent _onDeath;
-    [SerializeField] UnityEvent _onRespawn;
+    
 
 
     private float lastShootTimestamp = Mathf.NegativeInfinity;
@@ -57,11 +54,13 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
+                EventManager.Instance.onLaserActivation.Invoke();
                 _laser.OnActivation();
             }
             else if(Input.GetKeyUp(KeyCode.LeftShift))
             {
-                _laser.OnCancel();
+                EventManager.Instance.onLaserRelease.Invoke();
+                _laser.OnActivation();
             }
         }
 
@@ -71,24 +70,24 @@ public class Player : MonoBehaviour
 
     void Shoot()
     {
-        _onShoot.Invoke();
+        EventManager.Instance.onPlayerShoot.Invoke();
         Instantiate(bulletPrefab, shootAt.position, Quaternion.identity);
         lastShootTimestamp = Time.time;
     }
     void UpdateHealth()
     {
-        _onDamageTaken.Invoke();
+        EventManager.Instance.onPlayerDamageTaken.Invoke();
         health--;
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         lifeUI.UpdateDisplay();
         if (health == 0)
         {
-            _onDeath.Invoke();
+            EventManager.Instance.onPlayerDeath.Invoke();
             GameManager.Instance.PlayGameOver();
         }
         else
         {
-            _onRespawn.Invoke();
+            EventManager.Instance.onPlayerRespawn.Invoke();
             StartCoroutine(Respawn());
         }
     }

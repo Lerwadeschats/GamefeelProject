@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Laser : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class Laser : MonoBehaviour
 
     Coroutine _coroutine;
 
+    
+
     private void Awake()
     {
         _beam = transform.Find("Beam").gameObject;
@@ -26,16 +30,6 @@ public class Laser : MonoBehaviour
     {
         _coroutine = StartCoroutine(Charge());
         _chargingEffect.Play(true);
-        print("eznjfkea");
-    }
-
-    public void OnCancel()
-    {
-        if(_coroutine != null)
-        {
-            _chargingEffect.Play(false);
-            StopCoroutine(_coroutine);
-        }
     }
 
     IEnumerator Charge()
