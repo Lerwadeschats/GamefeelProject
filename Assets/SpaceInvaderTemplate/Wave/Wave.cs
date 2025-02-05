@@ -33,6 +33,11 @@ public class Wave : MonoBehaviour
     // Distance moved when moving downward
     [SerializeField] private float downStep = 1f;
 
+
+    [SerializeField] private int _waveValue = 1000;
+
+
+
     private Bounds Bounds => new Bounds(transform.position, new Vector3(bounds.x, bounds.y, 1000f));
 
     Move move = Move.Right;
@@ -243,6 +248,7 @@ public class Wave : MonoBehaviour
         }
         if(invaders.Count == 0&&gameObject.activeInHierarchy)
         {
+            GameManager.Instance.Score += _waveValue;
             StartCoroutine(CooldownBeforeRespawn(2));
         }
     }
