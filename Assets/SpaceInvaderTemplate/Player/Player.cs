@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
 
     void UpdateMovement()
     {
-        if (_isImmobile)
+        if (!_isImmobile)
         {
             float move = Input.GetAxis("Horizontal");
             if (Mathf.Abs(move) < deadzone) { return; }
