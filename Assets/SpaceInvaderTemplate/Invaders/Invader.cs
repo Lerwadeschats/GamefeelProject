@@ -8,7 +8,7 @@ public class Invader : MonoBehaviour
     [SerializeField] private Bullet bulletPrefab = null;
     [SerializeField] private Transform shootAt = null;
     [SerializeField] private string collideWithTag = "Player";
-
+    [SerializeField] int _value;
     internal Action<Invader> onDestroy;
 
     public Vector2Int GridIndex { get; private set; }
@@ -28,13 +28,15 @@ public class Invader : MonoBehaviour
 
         if (collision.gameObject.tag == "Laser")
         {
+            GameManager.Instance.Score += _value;
             Destroy(gameObject);
+            return;
         }
 
         if (collision.gameObject.tag != collideWithTag) { return; }
 
-        
 
+        GameManager.Instance.Score += _value;
         Destroy(gameObject);
         Destroy(collision.gameObject);
     }
