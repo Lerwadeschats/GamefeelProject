@@ -10,8 +10,20 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance = null;
 
+   [SerializeField]private int _score;
+
+    [SerializeField] ScoreUI _scoreUI;
+
     [SerializeField] private Vector2 bounds;
     private Bounds Bounds => new Bounds(transform.position, new Vector3(bounds.x, bounds.y, 1000f));
+
+    public int Score { get => _score;
+        set
+        {
+            _score = value;
+            _scoreUI.UpdateScore();
+        }
+     }
 
     [SerializeField] private float gameOverHeight;
 
