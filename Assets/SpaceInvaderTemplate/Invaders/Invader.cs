@@ -28,19 +28,21 @@ public class Invader : MonoBehaviour
 
         if (collision.gameObject.tag == "Laser")
         {
+            EventManager.Instance.onEnemyDeathLaser.Invoke();
             Destroy(gameObject);
         }
 
         if (collision.gameObject.tag != collideWithTag) { return; }
 
-        
 
+        EventManager.Instance.onEnemyDeathBullet?.Invoke();
         Destroy(gameObject);
         Destroy(collision.gameObject);
     }
 
     public void Shoot()
     {
+        EventManager.Instance.onEnemyShoot.Invoke();
         Instantiate(bulletPrefab, shootAt.position, Quaternion.identity);
     }
 }

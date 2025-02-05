@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Laser : MonoBehaviour
 {
@@ -17,6 +19,9 @@ public class Laser : MonoBehaviour
 
     Coroutine _coroutine;
 
+    bool _isReady;
+    
+
     private void Awake()
     {
         _beam = transform.Find("Beam").gameObject;
@@ -26,39 +31,38 @@ public class Laser : MonoBehaviour
     {
         _coroutine = StartCoroutine(Charge());
         _chargingEffect.Play(true);
-        print("eznjfkea");
-    }
-
-    public void OnCancel()
-    {
-        if(_coroutine != null)
-        {
-            _chargingEffect.Play(false);
-            StopCoroutine(_coroutine);
-        }
     }
 
     IEnumerator Charge()
     {
-        //Start effect
         yield return new WaitForSeconds(_chargingTime);
-        LaunchLaser();
-        yield return null;
+        _isReady = true;
+        EventManager.Instance.onLaserReady?.Invoke();
     }
 
-    void LaunchLaser()
+    public void OnRelease()
     {
-        _coroutine = null;
-        StartCoroutine(ActivationDuration());
-
-
+        if (_isReady)
+        {
+            _coroutine = null;
+            StartCoroutine(ActivationDuration());
+        }
+        else
+        {
+            if(_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+                _chargingEffect.Stop(true);
+            }
+        }
+        
     }
 
     IEnumerator ActivationDuration()
     {
         _beam.SetActive(true);
-
         yield return new WaitForSeconds(_duration);
         _beam.SetActive(false);
+        EventManager.Instance.onPlayerExhausted?.Invoke();
     }
 }

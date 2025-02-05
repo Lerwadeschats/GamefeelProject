@@ -776,18 +776,7 @@ MonoBehaviour:
   shootCooldown: 0.3
   collideWithTag: Untagged
   _laser: {fileID: 0}
-  _onShoot:
-    m_PersistentCalls:
-      m_Calls: []
-  _onDamageTaken:
-    m_PersistentCalls:
-      m_Calls: []
-  _onDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  _onRespawn:
-    m_PersistentCalls:
-      m_Calls: []
+  _exhaustion: 5
 --- !u!212 &582271455
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1536,6 +1525,7 @@ GameObject:
   - component: {fileID: 1542907411}
   - component: {fileID: 1542907410}
   - component: {fileID: 1542907409}
+  - component: {fileID: 1542907412}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1593,6 +1583,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1542907412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542907408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 950b793f2acf3e749a869ab8e91a1634, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onPlayerShoot:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayerDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayerDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayerRespawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onLaserActivation:
+    m_PersistentCalls:
+      m_Calls: []
+  onLaserReady:
+    m_PersistentCalls:
+      m_Calls: []
+  onLaserRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayerMovement:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayerExhausted:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnemyDeathLaser:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnemyDeathBullet:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnemyShoot:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnemySpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onWaveSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  onWaveMovement:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1795382928
 GameObject:
   m_ObjectHideFlags: 0

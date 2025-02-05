@@ -17,13 +17,15 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Laser _laser;
 
-    [SerializeField] UnityEvent _onShoot;
-    [SerializeField] UnityEvent _onDamageTaken;
-    [SerializeField] UnityEvent _onDeath;
-    [SerializeField] UnityEvent _onRespawn;
+    
 
 
     private float lastShootTimestamp = Mathf.NegativeInfinity;
+
+    bool _isExhausted;
+    [SerializeField] float _exhaustion = 5f;
+
+    bool _isImmobile;
 
     private void Awake()
     {
@@ -38,57 +40,74 @@ public class Player : MonoBehaviour
 
     void UpdateMovement()
     {
-        float move = Input.GetAxis("Horizontal");
-        if (Mathf.Abs(move) < deadzone) { return; }
+        if (_isImmobile)
+        {
+            float move = Input.GetAxis("Horizontal");
+            if (Mathf.Abs(move) < deadzone) { return; }
 
-        move = Mathf.Sign(move);
-        float delta = move * speed * Time.deltaTime;
-        transform.position = GameManager.Instance.KeepInBounds(transform.position + Vector3.right * delta);
+
+            move = Mathf.Sign(move);
+            float delta = move * speed * Time.deltaTime;
+            transform.position = GameManager.Instance.KeepInBounds(transform.position + Vector3.right * delta);
+            EventManager.Instance.onPlayerMovement?.Invoke();
+        }
+        
     }
 
     void UpdateActions()
     {
-        if (    Input.GetKey(KeyCode.Space) 
-            &&  Time.time > lastShootTimestamp + shootCooldown )
+        if (!_isExhausted)
         {
-            Shoot();
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.Space)
+            && Time.time > lastShootTimestamp + shootCooldown)
             {
-                _laser.OnActivation();
+                Shoot();
             }
-            else if(Input.GetKeyUp(KeyCode.LeftShift))
+            else
             {
-                _laser.OnCancel();
+                if (Input.GetKeyDown(KeyCode.LeftShift))
+                {
+                    EventManager.Instance.onLaserActivation?.Invoke();
+                    _laser.OnActivation();
+                }
+                else if (Input.GetKeyUp(KeyCode.LeftShift))
+                {
+                    EventManager.Instance.onLaserRelease?.Invoke();
+                    _laser.OnRelease();
+                }
             }
         }
+        
 
         
 
     }
 
+    public void NoMovementMode(bool isNowImmobile)//j'avais pas d'idée de nom
+    {
+        _isImmobile = isNowImmobile;
+    }
+
     void Shoot()
     {
-        _onShoot.Invoke();
+        EventManager.Instance.onPlayerShoot?.Invoke();
         Instantiate(bulletPrefab, shootAt.position, Quaternion.identity);
         lastShootTimestamp = Time.time;
     }
     void UpdateHealth()
     {
-        _onDamageTaken.Invoke();
+        EventManager.Instance.onPlayerDamageTaken?.Invoke();
         health--;
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         lifeUI.UpdateDisplay();
         if (health == 0)
         {
-            _onDeath.Invoke();
+            EventManager.Instance.onPlayerDeath?.Invoke();
             GameManager.Instance.PlayGameOver();
         }
         else
         {
-            _onRespawn.Invoke();
+            EventManager.Instance.onPlayerRespawn?.Invoke();
             StartCoroutine(Respawn());
         }
     }
@@ -104,5 +123,17 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag != collideWithTag) { return; }
 
         UpdateHealth();
+    }
+
+    public void IsExhausted()
+    {
+        _isExhausted = true;
+        StartCoroutine(Exhaustion());
+    }
+
+    IEnumerator Exhaustion()
+    {
+        yield return new WaitForSeconds(_exhaustion);
+        _isExhausted = false;
     }
 }

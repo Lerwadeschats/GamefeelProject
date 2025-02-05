@@ -55,7 +55,7 @@ public class Wave : MonoBehaviour
     {
         origin = transform.position;
         shootCooldown = timeBeforeFirstShoot;
-        SetupWave();
+        
     }
 
     void SetupWave()
@@ -71,6 +71,8 @@ public class Wave : MonoBehaviour
             invaderPerRow.Add(new() { id = i, invaders = new() });
         }
 
+
+
         // Spaw the invader grid
         for (int i = 0; i < columns; i++)
         {
@@ -84,6 +86,13 @@ public class Wave : MonoBehaviour
                 invaderPerRow[j].invaders.Add(invader);
             }
         }
+        print(EventManager.Instance);
+        EventManager.Instance.onWaveSpawn?.Invoke();
+    }
+
+    private void Start()
+    {
+        SetupWave();
     }
     void Update()
     {
@@ -114,6 +123,7 @@ public class Wave : MonoBehaviour
 
     void UpdateMovement()
     {
+
         if(invaders.Count <= 0) { return; }
 
         // Speed depends on remaining invaders ratio
@@ -124,8 +134,11 @@ public class Wave : MonoBehaviour
         float delta = speed * Time.deltaTime;
         distance += delta;
 
+        EventManager.Instance.onWaveMovement?.Invoke();
+
         switch (move)
         {
+            
             case Move.Right:
                 {
                     // Get the last non-empty column position
