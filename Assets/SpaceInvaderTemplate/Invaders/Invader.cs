@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Invader : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class Invader : MonoBehaviour
     [SerializeField] private string collideWithTag = "Player";
     [SerializeField] int _value;
     [SerializeField] int _hp;
+    [SerializeField]  UnityEvent onEnemeyDamageTaken;
+
     internal Action<Invader> onDestroy;
 
     public Vector2Int GridIndex { get; private set; }
@@ -43,7 +46,7 @@ public class Invader : MonoBehaviour
         _hp--;
         if (_hp > 0)
         {
-            EventManager.Instance.onEnemeyDamageTaken?.Invoke();
+           onEnemeyDamageTaken.Invoke();
         }
         else
         {
