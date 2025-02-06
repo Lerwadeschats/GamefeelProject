@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Invader : MonoBehaviour
 {
+    [SerializeField] private Bonus bonusPrefab = null;
     [SerializeField] private Bullet bulletPrefab = null;
     [SerializeField] private Transform shootAt = null;
     [SerializeField] private string collideWithTag = "Player";
@@ -40,7 +42,14 @@ public class Invader : MonoBehaviour
         EventManager.Instance.onEnemyDeathBullet?.Invoke();
         GameManager.Instance.Score += _value;
         Destroy(gameObject);
+        collision.gameObject.GetComponent<Bullet>()?.OnCollide();
         Destroy(collision.gameObject);
+        List<BonusType> bonusAvailable = Player.Instance.GetBonusAvailable();
+        if (bonusAvailable.Count > 0 && UnityEngine.Random.Range(0, 100) < 10) {
+            BonusType bonusType = bonusAvailable[UnityEngine.Random.Range(0, bonusAvailable.Count)];
+            Bonus bonus = Instantiate(bonusPrefab, transform.position, Quaternion.identity);
+            bonus.Initialize(bonusType);
+        }
     }
 
     public void Shoot()
