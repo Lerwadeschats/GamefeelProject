@@ -21,6 +21,9 @@ public class Laser : MonoBehaviour
     ParticleSystem _chargingBall;
     ParticleSystem _bigHeart;
 
+    [SerializeField]
+    ParticleSystem[] _laserReadyEffects;
+
     Coroutine _coroutine;
 
     bool _isReady;
@@ -55,7 +58,8 @@ public class Laser : MonoBehaviour
         EventManager.Instance.onLaserReady?.Invoke();
         _chargingEffect.Stop();
         _chargingBall.Pause();
-       
+
+        UpdateLaserReadyEffects(true);
     }
 
     public void OnRelease()
@@ -65,6 +69,7 @@ public class Laser : MonoBehaviour
             _chargingBall.Clear();
             _chargingBall.Stop();
             _coroutine = null;
+            UpdateLaserReadyEffects(false);
             StartCoroutine(ActivationDuration());
             
         }
@@ -99,5 +104,18 @@ public class Laser : MonoBehaviour
         _beam.SetActive(false);
         _isReady = false;
         EventManager.Instance.onPlayerExhausted?.Invoke();
+    }
+
+
+
+    public void UpdateLaserReadyEffects(bool isReady)
+    {
+        foreach(ParticleSystem particle in _laserReadyEffects)
+        {
+            if(isReady)
+                particle.Play(true);
+
+            else particle.Stop(true);
+        }
     }
 }
