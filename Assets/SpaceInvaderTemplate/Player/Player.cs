@@ -200,7 +200,6 @@ public class Player : MonoBehaviour
             }
         }
         EventManager.Instance.onPlayerShoot?.Invoke();
-        Instantiate(bulletPrefab, shootAt.position, Quaternion.identity);
         lastShootTimestamp = Time.time;
     }
     

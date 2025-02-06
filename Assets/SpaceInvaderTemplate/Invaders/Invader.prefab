@@ -106,6 +106,7 @@ MonoBehaviour:
   shootAt: {fileID: 8808591723042360307}
   collideWithTag: Player
   _value: 10
+  _hp: 2
 --- !u!61 &1286698669282929100
 BoxCollider2D:
   m_ObjectHideFlags: 0
