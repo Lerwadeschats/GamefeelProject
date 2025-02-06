@@ -4965,7 +4965,7 @@ MonoBehaviour:
   deadzone: 0.2
   speed: 10
   health: 3
-  bulletPrefab: {fileID: 7369880722360228486, guid: 42269f87d33f3eb4898473401db125ae, type: 3}
+  bulletPrefab: {fileID: 2744446301243137866, guid: 9604be5fe1814f545b78dd38ece1174f, type: 3}
   lifeUI: {fileID: 0}
   shootAt: {fileID: 8299036773135050547}
   shootCooldown: 0.3
