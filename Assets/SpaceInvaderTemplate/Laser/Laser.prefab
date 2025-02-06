@@ -180,7 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _chargingTime: 3
   _duration: 0.5
-  _chargingEffect: {fileID: 7482614329421717765}
+  _chargeEffectObj: {fileID: 398526064227734143}
   _beamEffectCurve:
     serializedVersion: 2
     m_Curve:
@@ -294,6 +294,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3832209207530984394}
     m_Modifications:
+    - target: {fileID: 3536974931546772759, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536974931546772759, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+      propertyPath: InitialModule.startColor.minMaxState
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536974931546772759, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536974931546772759, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.g
+      value: 0.92820346
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536974931546772759, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key1.b
+      value: 0.90155935
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536974931546772759, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key1.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536974931546772759, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.m_ColorSpace
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3625023066790985069, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
       propertyPath: looping
       value: 1
@@ -402,6 +430,22 @@ PrefabInstance:
       propertyPath: InitialModule.startSpeed.maxCurve.m_Curve.Array.data[1].outWeight
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3733285664662670147, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733285664662670147, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733285664662670147, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733285664662670147, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4053930003230512274, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
@@ -412,7 +456,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7199959872631492574, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
       propertyPath: lengthInSec
-      value: 3
+      value: 3.1
       objectReference: {fileID: 0}
     - target: {fileID: 7199959872631492574, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
       propertyPath: playOnAwake
@@ -424,7 +468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7199959872631492574, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 3
+      value: 3.1
       objectReference: {fileID: 0}
     - target: {fileID: 8346534524348742488, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
       propertyPath: m_LocalScale.x
@@ -487,13 +531,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+--- !u!1 &398526064227734143 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5773302509888523799, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
+  m_PrefabInstance: {fileID: 6168028593210367080}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2760114755075483440 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8346534524348742488, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
-  m_PrefabInstance: {fileID: 6168028593210367080}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &7482614329421717765 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3625023066790985069, guid: 3a0484d059ff9b04ea537a200f2e4250, type: 3}
   m_PrefabInstance: {fileID: 6168028593210367080}
   m_PrefabAsset: {fileID: 0}
