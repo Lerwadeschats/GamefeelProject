@@ -1724,10 +1724,18 @@ PrefabInstance:
       propertyPath: InitialModule.gravityModifier.scalar
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 572705229526919226, guid: 4022f23a5182ad74aaa0a7a31a21dee2, type: 3}
+      propertyPath: _duration
+      value: 3.7
+      objectReference: {fileID: 0}
     - target: {fileID: 6118857034458026161, guid: 4022f23a5182ad74aaa0a7a31a21dee2, type: 3}
       propertyPath: lifeUI
       value: 
       objectReference: {fileID: 1795382932}
+    - target: {fileID: 6127300332106004325, guid: 4022f23a5182ad74aaa0a7a31a21dee2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7125610060827396374, guid: 4022f23a5182ad74aaa0a7a31a21dee2, type: 3}
       propertyPath: m_Radius
       value: 1.029533
@@ -7573,6 +7581,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onLaserRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  onLaserFire:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 948127476}
