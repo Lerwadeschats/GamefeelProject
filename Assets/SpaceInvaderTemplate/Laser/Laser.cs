@@ -20,11 +20,17 @@ public class Laser : MonoBehaviour
     Coroutine _coroutine;
 
     bool _isReady;
+
+    Material _material;
+
+    [SerializeField]
+    AnimationCurve _beamEffectCurve;
     
 
     private void Awake()
     {
         _beam = transform.Find("Beam").gameObject;
+        _material = _beam.GetComponent<SpriteRenderer>().material;
         _beam.SetActive(false);
     }
     public void OnActivation()
@@ -61,8 +67,16 @@ public class Laser : MonoBehaviour
     IEnumerator ActivationDuration()
     {
         _beam.SetActive(true);
-        yield return new WaitForSeconds(_duration);
+        float timer = 0;
+        while(timer < _duration)
+        {
+            timer += Time.deltaTime;
+            print(_material.GetFloat("_Power"));
+            _material.SetFloat("_Power", _beamEffectCurve.Evaluate(timer/_duration));
+            yield return null;
+        }
         _beam.SetActive(false);
+        _isReady = false;
         EventManager.Instance.onPlayerExhausted?.Invoke();
     }
 }
