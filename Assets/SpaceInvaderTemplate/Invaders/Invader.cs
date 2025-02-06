@@ -58,7 +58,6 @@ public class Invader : MonoBehaviour
         {
             onEnemyDeathBullet.Invoke();
             GameManager.Instance.Score += _value;
-            Destroy(gameObject);
             List<BonusType> bonusAvailable = Player.Instance.GetBonusAvailable();
             if (bonusAvailable.Count > 0 && UnityEngine.Random.Range(0, 100) < 10)
             {
@@ -68,12 +67,15 @@ public class Invader : MonoBehaviour
             }
         }
         collision.gameObject.GetComponent<Bullet>()?.OnCollide();
-        Destroy(collision.gameObject);
     }
 
     public void Shoot()
     {
         onEnemyShoot.Invoke();
         Instantiate(bulletPrefab, shootAt.position, Quaternion.identity);
+    }
+    public void Death()
+    {
+        Destroy(gameObject);
     }
 }
