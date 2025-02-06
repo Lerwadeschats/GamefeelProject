@@ -1117,7 +1117,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -10
+  m_SortingOrder: -3001
   m_Sprite: {fileID: 21300000, guid: 21d0874d471b2004b95f4373b1b91780, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1144,6 +1144,79 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &456935022
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7754528423476661908, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_Name
+      value: Explosion_Burst
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661908, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661909, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661910, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: SubModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661910, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: InitialModule.startSizeZ.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
 --- !u!1 &515115288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1983,7 +2056,7 @@ MonoBehaviour:
         MutualizePools: 0
         ParentTransform: {fileID: 0}
         CachedRecycle: 1
-        ParticlesPrefab: {fileID: 0}
+        ParticlesPrefab: {fileID: 1382604618}
         RandomParticlePrefabs: []
         ForceSetActiveOnPlay: 0
         StopOnReset: 0
@@ -2038,7 +2111,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ed267e223c0d7bd4bbde5a25ee764ea7, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3950,7 +4023,7 @@ MonoBehaviour:
         RemapRangeFalloff: {x: 0, y: 1}
         Owner: {fileID: 948127476}
         DebugActive: 0
-        PauseDuration: 1
+        PauseDuration: 0.15
         RandomizePauseDuration: 0
         MinPauseDuration: 1
         MaxPauseDuration: 3
@@ -4026,7 +4099,7 @@ MonoBehaviour:
         RemapRangeFalloff: {x: 0, y: 1}
         Owner: {fileID: 948127476}
         DebugActive: 0
-        PauseDuration: 1
+        PauseDuration: 0.15
         RandomizePauseDuration: 0
         MinPauseDuration: 1
         MaxPauseDuration: 3
@@ -4432,7 +4505,7 @@ MonoBehaviour:
         RemapRangeFalloff: {x: 0, y: 1}
         Owner: {fileID: 948127476}
         DebugActive: 0
-        PauseDuration: 1
+        PauseDuration: 0.15
         RandomizePauseDuration: 0
         MinPauseDuration: 1
         MaxPauseDuration: 3
@@ -4838,7 +4911,7 @@ MonoBehaviour:
         RemapRangeFalloff: {x: 0, y: 1}
         Owner: {fileID: 948127476}
         DebugActive: 0
-        PauseDuration: 1
+        PauseDuration: 0.15
         RandomizePauseDuration: 0
         MinPauseDuration: 1
         MaxPauseDuration: 3
@@ -5244,7 +5317,7 @@ MonoBehaviour:
         RemapRangeFalloff: {x: 0, y: 1}
         Owner: {fileID: 948127476}
         DebugActive: 0
-        PauseDuration: 1
+        PauseDuration: 0.15
         RandomizePauseDuration: 0
         MinPauseDuration: 1
         MaxPauseDuration: 3
@@ -5650,7 +5723,7 @@ MonoBehaviour:
         RemapRangeFalloff: {x: 0, y: 1}
         Owner: {fileID: 948127476}
         DebugActive: 0
-        PauseDuration: 1
+        PauseDuration: 0.15
         RandomizePauseDuration: 0
         MinPauseDuration: 1
         MaxPauseDuration: 3
@@ -6879,7 +6952,7 @@ MonoBehaviour:
         RemapRangeFalloff: {x: 0, y: 1}
         Owner: {fileID: 948127476}
         DebugActive: 0
-        PauseDuration: 1
+        PauseDuration: 2.5
         RandomizePauseDuration: 0
         MinPauseDuration: 1
         MaxPauseDuration: 3
@@ -7260,6 +7333,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284502214}
   m_CullTransparentMesh: 1
+--- !u!198 &1382604618 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7754528423476661910, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
+  m_PrefabInstance: {fileID: 456935022}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1524890344
 GameObject:
   m_ObjectHideFlags: 0
@@ -7521,13 +7599,13 @@ MonoBehaviour:
   onEnemyDeathBullet:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 779673327}
+        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Feedbacks
+        m_MethodName: PlayFeedbacks
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9281,3 +9359,4 @@ SceneRoots:
   - {fileID: 1917378158}
   - {fileID: 450615868}
   - {fileID: 779673328}
+  - {fileID: 456935022}
