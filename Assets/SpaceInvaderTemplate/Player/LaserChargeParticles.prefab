@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5773302509888523799
+--- !u!1 &5010653244593599636
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8346534524348742488}
-  - component: {fileID: 3625023066790985069}
-  - component: {fileID: 3741016731960451643}
+  - component: {fileID: 3733285664662670147}
+  - component: {fileID: 3536974931546772759}
+  - component: {fileID: 3428384310258944831}
   m_Layer: 0
   m_Name: LaserChargeParticles
   m_TagString: Untagged
@@ -18,31 +18,30 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8346534524348742488
+--- !u!4 &3733285664662670147
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5773302509888523799}
+  m_GameObject: {fileID: 5010653244593599636}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.999375, y: -0, z: -0, w: -0.035350576}
-  m_LocalPosition: {x: -1.6705844, y: 1.32247, z: 0.018702436}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4053930003230512274}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 8346534524348742488}
   m_LocalEulerAnglesHint: {x: -184.052, y: 0, z: 0}
---- !u!198 &3625023066790985069
+--- !u!198 &3536974931546772759
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5773302509888523799}
+  m_GameObject: {fileID: 5010653244593599636}
   serializedVersion: 8
-  lengthInSec: 4.5
+  lengthInSec: 2.7
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -4757,14 +4756,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &3741016731960451643
+--- !u!199 &3428384310258944831
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5773302509888523799}
+  m_GameObject: {fileID: 5010653244593599636}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -4831,6 +4830,39 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &5773302509888523799
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8346534524348742488}
+  m_Layer: 0
+  m_Name: LaserChargeParticles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8346534524348742488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5773302509888523799}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.999375, y: -0, z: -0, w: -0.035350576}
+  m_LocalPosition: {x: -1.6705844, y: 1.32247, z: 0.018702436}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4053930003230512274}
+  - {fileID: 3733285664662670147}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: -184.052, y: 0, z: 0}
 --- !u!1 &6383894342852575103
 GameObject:
   m_ObjectHideFlags: 0
@@ -4872,7 +4904,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6383894342852575103}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 3
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
