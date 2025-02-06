@@ -142,12 +142,12 @@ TextureImporter:
       name: spritesheet_2
       rect:
         serializedVersion: 2
-        x: 502
-        y: 562
+        x: 497
+        y: 563
         width: 54
-        height: 439
+        height: 438
       alignment: 9
-      pivot: {x: 0.6320993, y: 0.9685188}
+      pivot: {x: 0.54403234, y: 0.95226955}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -385,6 +385,8 @@ TextureImporter:
       spritesheet_10: -1717109167
       spritesheet_11: -2123754563
       spritesheet_12: -616513521
+      spritesheet_13: -276020342
+      spritesheet_14: 1189225084
       spritesheet_2: -2044194991
       spritesheet_3: 2074976646
       spritesheet_4: -1061998668
