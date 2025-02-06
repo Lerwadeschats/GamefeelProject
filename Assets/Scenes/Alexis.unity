@@ -1725,6 +1725,9 @@ MonoBehaviour:
   onLaserRelease:
     m_PersistentCalls:
       m_Calls: []
+  onLaserFire:
+    m_PersistentCalls:
+      m_Calls: []
   onPlayerMovement:
     m_PersistentCalls:
       m_Calls: []
@@ -2051,69 +2054,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser
       objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[1].time
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[2].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[0].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[1].value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[0].inSlope
-      value: -6.8102674
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[1].inSlope
-      value: -0.012825772
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[2].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[0].outSlope
-      value: -6.8102674
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[1].inWeight
-      value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[1].outSlope
-      value: -0.012825772
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[2].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[0].outWeight
-      value: 0.04534123
-      objectReference: {fileID: 0}
-    - target: {fileID: 5403466220125617372, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: _beamSizeCurve.m_Curve.Array.data[1].outWeight
-      value: 0.24144526
-      objectReference: {fileID: 0}
-    - target: {fileID: 7245419503462320511, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
+    - target: {fileID: 8213180354769044232, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7245419503462320511, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
-      propertyPath: prewarm
-      value: 0
+    - target: {fileID: 8213180354769044232, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
+      propertyPath: lengthInSec
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213180354769044232, guid: 05bec46f802cc244d90ae6fc638fcb5a, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
