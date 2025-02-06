@@ -53,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a7ba13e691ee45f43b4d20b8d790606d, type: 2}
+  - {fileID: -876546973899608171, guid: 710581e9e37b8f849b5259e2bd0dc159, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -186,16 +186,16 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 2.89397
-      outSlope: 2.89397
+      value: 0.5
+      inSlope: -3.032425
+      outSlope: -3.032425
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.07490636
+      outWeight: 0.0379937
     - serializedVersion: 3
       time: 0.5
-      value: 0.5
+      value: 0
       inSlope: -0.025905216
       outSlope: -0.025905216
       tangentMode: 0
@@ -204,12 +204,12 @@ MonoBehaviour:
       outWeight: 0.25468147
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: -2.9403164
-      outSlope: -2.9403164
+      value: 0.5
+      inSlope: 2.938815
+      outSlope: 2.938815
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.07116127
+      inWeight: 0.052190304
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
