@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Alpha3))
         {
-            _playerBulletTrailVFX = !_playerBulletTrailVFX;
+            GameManager.Instance._playerBulletTrailVFX = !GameManager.Instance._playerBulletTrailVFX;
         }
         if (Input.GetKey(KeyCode.Alpha4))
         {
@@ -200,6 +200,7 @@ public class Player : MonoBehaviour
             }
         }
         EventManager.Instance.onPlayerShoot?.Invoke();
+        //Instantiate(bulletPrefab, shootAt.position, Quaternion.identity);
         lastShootTimestamp = Time.time;
     }
     
