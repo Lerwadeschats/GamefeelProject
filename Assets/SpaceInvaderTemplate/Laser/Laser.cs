@@ -15,7 +15,10 @@ public class Laser : MonoBehaviour
     float _duration = 0.5f;
 
     [SerializeField]
+    GameObject _chargeEffectObj;
+    
     ParticleSystem _chargingEffect;
+    ParticleSystem _chargingBall;
 
     Coroutine _coroutine;
 
@@ -24,19 +27,23 @@ public class Laser : MonoBehaviour
     Material _material;
 
     [SerializeField]
-    AnimationCurve _beamEffectCurve;
+    AnimationCurve _beamEffectCurve, _beamSizeCurve;
     
 
     private void Awake()
     {
         _beam = transform.Find("Beam").gameObject;
         _material = _beam.GetComponent<SpriteRenderer>().material;
+        _chargingBall = _chargeEffectObj.transform.GetChild(0).GetComponent<ParticleSystem>();
+        _chargingEffect = _chargeEffectObj.transform.GetChild(1).GetComponent<ParticleSystem>();
         _beam.SetActive(false);
+        
     }
     public void OnActivation()
     {
         _coroutine = StartCoroutine(Charge());
-        _chargingEffect.Play(true);
+        _chargingEffect.Play();
+        _chargingBall.Play();
     }
 
     IEnumerator Charge()
@@ -44,21 +51,30 @@ public class Laser : MonoBehaviour
         yield return new WaitForSeconds(_chargingTime);
         _isReady = true;
         EventManager.Instance.onLaserReady?.Invoke();
+        _chargingEffect.Stop();
+        _chargingBall.Pause();
+       
     }
 
     public void OnRelease()
     {
         if (_isReady)
         {
+            _chargingBall.Clear();
+            _chargingBall.Stop();
             _coroutine = null;
             StartCoroutine(ActivationDuration());
+            
         }
         else
         {
             if(_coroutine != null)
             {
                 StopCoroutine(_coroutine);
-                _chargingEffect.Stop(true);
+                _chargingEffect.Stop();
+                _chargingBall.Clear();
+                _chargingBall.Stop();
+
             }
         }
         
@@ -73,6 +89,7 @@ public class Laser : MonoBehaviour
             timer += Time.deltaTime;
             print(_material.GetFloat("_Power"));
             _material.SetFloat("_Power", _beamEffectCurve.Evaluate(timer/_duration));
+            _material.SetFloat("_Size", _beamSizeCurve.Evaluate(timer / _duration));
             yield return null;
         }
         _beam.SetActive(false);
