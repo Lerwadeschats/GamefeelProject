@@ -115,12 +115,10 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            foreach(GameObject g in _lazerVFX)
+            foreach (GameObject g in _ScoreVFX)
             {
                 g.SetActive(!g.activeInHierarchy);
             }
-            GameManager.Instance._LaserVFX = !GameManager.Instance._LaserVFX;
-
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
@@ -156,10 +154,12 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            foreach (GameObject g in _ScoreVFX)
+            foreach (GameObject g in _lazerVFX)
             {
                 g.SetActive(!g.activeInHierarchy);
             }
+            GameManager.Instance._LaserVFX = !GameManager.Instance._LaserVFX;
+
         }
     }
     public void NoMovementMode(bool isNowImmobile)//j'avais pas d'id�e de nom

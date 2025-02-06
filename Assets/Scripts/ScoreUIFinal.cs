@@ -19,7 +19,7 @@ public class ScoreUIFinal : MonoBehaviour
         {
             timer = 4;
         }
-        _score = (int)Mathf.Lerp(_score, GameManager.Instance.Score,timer/3) ;
+        _score = (int)Mathf.Lerp(0, GameManager.Instance.Score,timer/3) ;
         text.text = " " + _score*1000;
     }
 }
