@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
 
     void UpdateMovement()
     {
-        if (_isImmobile)
+        if (!_isImmobile)
         {
             float move = Input.GetAxis("Horizontal");
             if (Mathf.Abs(move) < deadzone) { return; }
@@ -98,7 +98,7 @@ public class Player : MonoBehaviour
     {
         EventManager.Instance.onPlayerDamageTaken?.Invoke();
         health--;
-        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        //GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         lifeUI.UpdateDisplay();
         if (health == 0)
         {
@@ -108,16 +108,16 @@ public class Player : MonoBehaviour
         else
         {
             EventManager.Instance.onPlayerRespawn?.Invoke();
-            StartCoroutine(Respawn());
+            //StartCoroutine(Respawn());
         }
     }
-    IEnumerator Respawn()
-    {
-        yield return new WaitForSeconds(.5f);
-        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-        gameObject.transform.position = new Vector3(0, -4, 0);
-        yield return null;
-    }
+    //IEnumerator Respawn()
+    //{
+    //    yield return new WaitForSeconds(.5f);
+    //    //GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+    //    //gameObject.transform.position = new Vector3(0, -4, 0);
+    //    yield return null;
+    //}
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag != collideWithTag) { return; }
