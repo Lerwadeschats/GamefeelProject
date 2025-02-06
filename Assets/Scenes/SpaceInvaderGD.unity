@@ -1362,7 +1362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7754528423476661908, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7754528423476661909, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
       propertyPath: m_SortingOrder
@@ -1378,7 +1378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.34
+      value: 48.6
       objectReference: {fileID: 0}
     - target: {fileID: 7754528423476661911, guid: 20721548ef773d247bb97c611751ce9a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8592,7 +8592,7 @@ MonoBehaviour:
         UniqueID: 1692002443
         Label: Rotation Shake
         ChannelMode: 0
-        Channel: 0
+        Channel: 15
         MMChannelDefinition: {fileID: 0}
         Chance: 100
         DisplayColor: {r: 0, g: 0, b: 0, a: 1}
@@ -8906,6 +8906,14 @@ PrefabInstance:
     - target: {fileID: 3722446105263994709, guid: f0bff5458f9c9044681a3592d861dfee, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.2418
+      objectReference: {fileID: 0}
+    - target: {fileID: 4197205635159997018, guid: f0bff5458f9c9044681a3592d861dfee, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4197205635159997018, guid: f0bff5458f9c9044681a3592d861dfee, type: 3}
+      propertyPath: m_SortingOrder
+      value: -3000
       objectReference: {fileID: 0}
     - target: {fileID: 4736468816976707322, guid: f0bff5458f9c9044681a3592d861dfee, type: 3}
       propertyPath: m_Name
