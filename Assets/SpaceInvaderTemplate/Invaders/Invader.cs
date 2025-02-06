@@ -17,6 +17,12 @@ public class Invader : MonoBehaviour
 
     internal Action<Invader> onDestroy;
 
+    [Header("Enemy Events")]
+    [SerializeField] public UnityEvent onEnemyDeathLaser;
+    [SerializeField] public UnityEvent onEnemyDeathBullet;
+    [SerializeField] public UnityEvent onEnemyDamageTaken;
+    [SerializeField] public UnityEvent onEnemyShoot;
+
     public Vector2Int GridIndex { get; private set; }
 
     public void Initialize(Vector2Int gridIndex)
@@ -34,7 +40,7 @@ public class Invader : MonoBehaviour
 
         if (collision.gameObject.tag == "Laser")
         {
-            EventManager.Instance.onEnemyDeathLaser.Invoke();
+            onEnemyDeathLaser.Invoke();
             GameManager.Instance.Score += _value;
             Destroy(gameObject);
             return;
@@ -50,7 +56,7 @@ public class Invader : MonoBehaviour
         }
         else
         {
-            EventManager.Instance.onEnemyDeathBullet.Invoke();
+            onEnemyDeathBullet.Invoke();
             GameManager.Instance.Score += _value;
             Destroy(gameObject);
             List<BonusType> bonusAvailable = Player.Instance.GetBonusAvailable();
@@ -67,7 +73,7 @@ public class Invader : MonoBehaviour
 
     public void Shoot()
     {
-        EventManager.Instance.onEnemyShoot.Invoke();
+        onEnemyShoot.Invoke();
         Instantiate(bulletPrefab, shootAt.position, Quaternion.identity);
     }
 }

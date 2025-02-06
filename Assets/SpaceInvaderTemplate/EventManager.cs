@@ -20,12 +20,7 @@ public class EventManager : MonoBehaviour
     [SerializeField] public UnityEvent onPlayerMovement;
     [SerializeField] public UnityEvent onPlayerExhausted;
 
-    [Header("Enemy Events")]
-    [SerializeField] public UnityEvent onEnemyDeathLaser; 
-    [SerializeField] public UnityEvent onEnemyDeathBullet;
-    [SerializeField] public UnityEvent onEnemeyDamageTaken; 
-    [SerializeField] public UnityEvent onEnemyShoot; 
-    [SerializeField] public UnityEvent onEnemySpawn; 
+    
 
     [Header("Wave Events")]
     [SerializeField] public UnityEvent onWaveSpawn;
