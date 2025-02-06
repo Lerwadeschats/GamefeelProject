@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance = null;
 
-   [SerializeField]private int _score;
+    public bool _playerBulletTrailVFX;
+    public bool _LaserVFX;
+
+    [SerializeField]private int _score;
 
     [SerializeField] ScoreUI _scoreUI;
 

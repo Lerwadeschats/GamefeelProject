@@ -5075,7 +5075,6 @@ MonoBehaviour:
   - {fileID: 8249237952560369678}
   - {fileID: 8604513917198729054}
   - {fileID: 7585440314844050375}
-  - {fileID: 8703098065943991864}
   _beamEffectCurve:
     serializedVersion: 2
     m_Curve:
@@ -5306,11 +5305,6 @@ ParticleSystem:
 --- !u!198 &8604513917198729054 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 8251475375091369912, guid: fed8c4a949a329646b48cbf9c65f41fd, type: 3}
-  m_PrefabInstance: {fileID: 426292696995117286}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &8703098065943991864 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 9020115662349512414, guid: fed8c4a949a329646b48cbf9c65f41fd, type: 3}
   m_PrefabInstance: {fileID: 426292696995117286}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6168028593210367080

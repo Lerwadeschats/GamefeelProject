@@ -50,8 +50,11 @@ public class Laser : MonoBehaviour
     public void OnActivation()
     {
         _coroutine = StartCoroutine(Charge());
-        _chargingEffect.Play();
-        _chargingBall.Play();
+        if (GameManager.Instance._LaserVFX)
+        {
+            _chargingEffect.Play();
+            _chargingBall.Play();
+        }
     }
 
     IEnumerator Charge()
@@ -59,9 +62,11 @@ public class Laser : MonoBehaviour
         yield return new WaitForSeconds(_chargingTime);
         _isReady = true;
         EventManager.Instance.onLaserReady?.Invoke();
-        _chargingEffect.Stop();
-        _chargingBall.Pause();
-
+        if (GameManager.Instance._LaserVFX)
+        {
+            _chargingEffect.Stop();
+            _chargingBall.Pause();
+        }
         UpdateLaserReadyEffects(true);
     }
 
@@ -69,8 +74,11 @@ public class Laser : MonoBehaviour
     {
         if (_isReady)
         {
-            _chargingBall.Clear();
-            _chargingBall.Stop();
+            if (GameManager.Instance._LaserVFX)
+            {
+                _chargingBall.Clear();
+                _chargingBall.Stop();
+            }
             _coroutine = null;
             UpdateLaserReadyEffects(false);
             StartCoroutine(ActivationDuration());
@@ -81,10 +89,12 @@ public class Laser : MonoBehaviour
             if(_coroutine != null)
             {
                 StopCoroutine(_coroutine);
-                _chargingEffect.Stop();
-                _chargingBall.Clear();
-                _chargingBall.Stop();
-
+                if (GameManager.Instance._LaserVFX)
+                {
+                    _chargingEffect.Stop();
+                    _chargingBall.Clear();
+                    _chargingBall.Stop();
+                }
             }
         }
         
@@ -117,12 +127,15 @@ public class Laser : MonoBehaviour
 
     public void UpdateLaserReadyEffects(bool isReady)
     {
-        foreach(ParticleSystem particle in _laserReadyEffects)
+        if (GameManager.Instance._LaserVFX)
         {
-            if(isReady)
-                particle.Play(true);
+            foreach (ParticleSystem particle in _laserReadyEffects)
+            {
+                if (isReady)
+                    particle.Play(true);
 
-            else particle.Stop(true);
+                else particle.Stop(true);
+            }
         }
     }
 }
