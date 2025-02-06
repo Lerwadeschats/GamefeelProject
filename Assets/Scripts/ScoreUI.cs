@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using TMPro;
 
 public class ScoreUI : MonoBehaviour
 {
-    [SerializeField]TMP_Text text;
+    [SerializeField] TMP_Text text;
+    [SerializeField] UnityEvent _onUpdateScore;
 
     private void Start()
     {
@@ -13,6 +15,11 @@ public class ScoreUI : MonoBehaviour
     }
     public void UpdateScore()
     {
-        text.text = " " + GameManager.Instance.Score;
+        if (GameManager.Instance.Score > 0)
+        {
+            _onUpdateScore.Invoke();
+            Debug.Log("caca");
+        }
+        text.text = " " + GameManager.Instance.Score * 100;
     }
 }

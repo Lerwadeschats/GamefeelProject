@@ -22,7 +22,8 @@ public class EventManager : MonoBehaviour
 
     [Header("Enemy Events")]
     [SerializeField] public UnityEvent onEnemyDeathLaser; 
-    [SerializeField] public UnityEvent onEnemyDeathBullet; 
+    [SerializeField] public UnityEvent onEnemyDeathBullet;
+    [SerializeField] public UnityEvent onEnemeyDamageTaken; 
     [SerializeField] public UnityEvent onEnemyShoot; 
     [SerializeField] public UnityEvent onEnemySpawn; 
 
