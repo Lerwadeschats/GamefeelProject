@@ -12,6 +12,9 @@ public class Laser : MonoBehaviour
     float _chargingTime = 3f;
 
     [SerializeField]
+    float _timeBeforeFire = 3.7f;
+
+    [SerializeField]
     float _duration = 0.5f;
 
     [SerializeField]
@@ -20,6 +23,9 @@ public class Laser : MonoBehaviour
     ParticleSystem _chargingEffect;
     ParticleSystem _chargingBall;
     ParticleSystem _bigHeart;
+
+    [SerializeField]
+    ParticleSystem[] _laserReadyEffects;
 
     Coroutine _coroutine;
 
@@ -55,7 +61,8 @@ public class Laser : MonoBehaviour
         EventManager.Instance.onLaserReady?.Invoke();
         _chargingEffect.Stop();
         _chargingBall.Pause();
-       
+
+        UpdateLaserReadyEffects(true);
     }
 
     public void OnRelease()
@@ -65,6 +72,7 @@ public class Laser : MonoBehaviour
             _chargingBall.Clear();
             _chargingBall.Stop();
             _coroutine = null;
+            UpdateLaserReadyEffects(false);
             StartCoroutine(ActivationDuration());
             
         }
@@ -84,9 +92,13 @@ public class Laser : MonoBehaviour
 
     IEnumerator ActivationDuration()
     {
+        
+        
+        EventManager.Instance.onLaserFire?.Invoke();
+
+        yield return new WaitForSeconds(_timeBeforeFire);
         _bigHeart.Play();
         _beam.SetActive(true);
-        EventManager.Instance.onLaserFire?.Invoke();
         float timer = 0;
         while(timer < _duration)
         {
@@ -99,5 +111,18 @@ public class Laser : MonoBehaviour
         _beam.SetActive(false);
         _isReady = false;
         EventManager.Instance.onPlayerExhausted?.Invoke();
+    }
+
+
+
+    public void UpdateLaserReadyEffects(bool isReady)
+    {
+        foreach(ParticleSystem particle in _laserReadyEffects)
+        {
+            if(isReady)
+                particle.Play(true);
+
+            else particle.Stop(true);
+        }
     }
 }
