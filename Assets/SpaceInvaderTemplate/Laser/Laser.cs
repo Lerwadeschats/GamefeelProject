@@ -19,6 +19,7 @@ public class Laser : MonoBehaviour
     
     ParticleSystem _chargingEffect;
     ParticleSystem _chargingBall;
+    ParticleSystem _bigHeart;
 
     Coroutine _coroutine;
 
@@ -36,6 +37,7 @@ public class Laser : MonoBehaviour
         _material = _beam.GetComponent<SpriteRenderer>().material;
         _chargingBall = _chargeEffectObj.transform.GetChild(0).GetComponent<ParticleSystem>();
         _chargingEffect = _chargeEffectObj.transform.GetChild(1).GetComponent<ParticleSystem>();
+        _bigHeart = _chargeEffectObj.transform.GetChild(2).GetComponent<ParticleSystem>();
         _beam.SetActive(false);
         
     }
@@ -82,7 +84,9 @@ public class Laser : MonoBehaviour
 
     IEnumerator ActivationDuration()
     {
+        _bigHeart.Play();
         _beam.SetActive(true);
+        EventManager.Instance.onLaserFire?.Invoke();
         float timer = 0;
         while(timer < _duration)
         {

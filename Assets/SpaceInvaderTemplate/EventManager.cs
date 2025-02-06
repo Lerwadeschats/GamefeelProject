@@ -16,6 +16,7 @@ public class EventManager : MonoBehaviour
     [SerializeField] public UnityEvent onLaserActivation;
     [SerializeField] public UnityEvent onLaserReady;
     [SerializeField] public UnityEvent onLaserRelease;
+    [SerializeField] public UnityEvent onLaserFire;
     [SerializeField] public UnityEvent onPlayerMovement;
     [SerializeField] public UnityEvent onPlayerExhausted;
 
