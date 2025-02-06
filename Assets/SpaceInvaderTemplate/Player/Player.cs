@@ -29,7 +29,6 @@ public class Player : MonoBehaviour
 
     [SerializeField] GameObject _trail;
     [SerializeField] List<GameObject> _lazerVFX;
-    [SerializeField] public bool _playerBulletTrailVFX;
     [SerializeField] List<GameObject> _enemyDeathVFX;
     [SerializeField] List<GameObject> _damageTakenVFX;
     [SerializeField] List<GameObject> _playerDeathVFX;
@@ -114,46 +113,48 @@ public class Player : MonoBehaviour
         {
             _trail.SetActive(!_trail.activeInHierarchy);
         }
-        if (Input.GetKey(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             foreach(GameObject g in _lazerVFX)
             {
                 g.SetActive(!g.activeInHierarchy);
             }
+            GameManager.Instance._LaserVFX = !GameManager.Instance._LaserVFX;
+
         }
-        if (Input.GetKey(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             GameManager.Instance._playerBulletTrailVFX = !GameManager.Instance._playerBulletTrailVFX;
         }
-        if (Input.GetKey(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             foreach (GameObject g in _enemyDeathVFX)
             {
                 g.SetActive(!g.activeInHierarchy);
             }
         }
-        if (Input.GetKey(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             foreach (GameObject g in _damageTakenVFX)
             {
                 g.SetActive(!g.activeInHierarchy);
             }
         }
-        if (Input.GetKey(KeyCode.Alpha6))
+        if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             foreach (GameObject g in _playerDeathVFX)
             {
                 g.SetActive(!g.activeInHierarchy);
             }
         }
-        if (Input.GetKey(KeyCode.Alpha7))
+        if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             foreach (GameObject g in _enemyBulletVFX)
             {
                 g.SetActive(!g.activeInHierarchy);
             }
         }
-        if (Input.GetKey(KeyCode.Alpha8))
+        if (Input.GetKeyDown(KeyCode.Alpha8))
         {
             foreach (GameObject g in _ScoreVFX)
             {

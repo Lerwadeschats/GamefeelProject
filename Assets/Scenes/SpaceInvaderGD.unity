@@ -1780,6 +1780,10 @@ PrefabInstance:
       propertyPath: InitialModule.gravityModifier.scalar
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 379519790401039864, guid: 4022f23a5182ad74aaa0a7a31a21dee2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 572705229526919226, guid: 4022f23a5182ad74aaa0a7a31a21dee2, type: 3}
       propertyPath: _duration
       value: 3.7
@@ -1792,6 +1796,18 @@ PrefabInstance:
       propertyPath: maxProjectiles
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6118857034458026161, guid: 4022f23a5182ad74aaa0a7a31a21dee2, type: 3}
+      propertyPath: _lazerVFX.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118857034458026161, guid: 4022f23a5182ad74aaa0a7a31a21dee2, type: 3}
+      propertyPath: _playerBulletTrailVFX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6118857034458026161, guid: 4022f23a5182ad74aaa0a7a31a21dee2, type: 3}
+      propertyPath: _lazerVFX.Array.data[0]
+      value: 
+      objectReference: {fileID: 948127475}
     - target: {fileID: 6127300332106004325, guid: 4022f23a5182ad74aaa0a7a31a21dee2, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2795,6 +2811,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0853a885e711343b390ac1d9e6cb38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerBulletTrailVFX: 0
+  _LazerVFX: 0
   _score: 0
   _scoreUI: {fileID: 24683601}
   bounds: {x: 16, y: 9}

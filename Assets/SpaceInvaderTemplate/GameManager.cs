@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance = null;
 
     public bool _playerBulletTrailVFX;
+    public bool _LaserVFX;
 
     [SerializeField]private int _score;
 
