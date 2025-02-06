@@ -12,6 +12,9 @@ public class Laser : MonoBehaviour
     float _chargingTime = 3f;
 
     [SerializeField]
+    float _timeBeforeFire = 3.7f;
+
+    [SerializeField]
     float _duration = 0.5f;
 
     [SerializeField]
@@ -89,9 +92,13 @@ public class Laser : MonoBehaviour
 
     IEnumerator ActivationDuration()
     {
+        
+        
+        EventManager.Instance.onLaserFire?.Invoke();
+
+        yield return new WaitForSeconds(_timeBeforeFire);
         _bigHeart.Play();
         _beam.SetActive(true);
-        EventManager.Instance.onLaserFire?.Invoke();
         float timer = 0;
         while(timer < _duration)
         {
