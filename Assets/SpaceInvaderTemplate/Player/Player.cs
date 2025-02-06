@@ -16,14 +16,31 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform shootAt = null;
     [SerializeField] private float shootCooldown = 1f;
     [SerializeField] private string collideWithTag = "Untagged";
-
+    [SerializeField] int projectiles = 1;
+    [SerializeField] private float projectileSpeed = 5f;
+    [SerializeField] private int maxProjectiles = 3;
+    [SerializeField] float projectileOffset = 0.5f;
+    [SerializeField] bool sideProjectile = false;
+    [SerializeField] Vector3 SideDirection = new Vector3(1, 0.85f, 0);
+    [SerializeField] private Transform shootAtRight = null;
+    [SerializeField] private Transform shootAtLeft = null;
+    [SerializeField] bool homingProjectile = false;
     [SerializeField] private Laser _laser;
 
-    [SerializeField] UnityEvent _onShoot;
+    [SerializeField] GameObject _trail;
+    [SerializeField] List<GameObject> _lazerVFX;
+    [SerializeField] public bool _playerBulletTrailVFX;
+    [SerializeField] List<GameObject> _enemyDeathVFX;
+    [SerializeField] List<GameObject> _damageTakenVFX;
+    [SerializeField] List<GameObject> _playerDeathVFX;
+    [SerializeField] List<GameObject> _enemyBulletVFX;
+    [SerializeField] List<GameObject> _ScoreVFX;
+
+     [SerializeField] UnityEvent _onShoot;
     [SerializeField] UnityEvent _onDamageTaken;
     [SerializeField] UnityEvent _onDeath;
     [SerializeField] UnityEvent _onRespawn;
-
+   
 
     private float lastShootTimestamp = Mathf.NegativeInfinity;
     
@@ -48,6 +65,7 @@ public class Player : MonoBehaviour
     {
         UpdateMovement();
         UpdateActions();
+        UpdateJuice();
     }
 
     void UpdateMovement()
@@ -89,12 +107,60 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        
-
-        
-
     }
-
+    void UpdateJuice()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            _trail.SetActive(!_trail.activeInHierarchy);
+        }
+        if (Input.GetKey(KeyCode.Alpha2))
+        {
+            foreach(GameObject g in _lazerVFX)
+            {
+                g.SetActive(!g.activeInHierarchy);
+            }
+        }
+        if (Input.GetKey(KeyCode.Alpha3))
+        {
+            _playerBulletTrailVFX = !_playerBulletTrailVFX;
+        }
+        if (Input.GetKey(KeyCode.Alpha4))
+        {
+            foreach (GameObject g in _enemyDeathVFX)
+            {
+                g.SetActive(!g.activeInHierarchy);
+            }
+        }
+        if (Input.GetKey(KeyCode.Alpha5))
+        {
+            foreach (GameObject g in _damageTakenVFX)
+            {
+                g.SetActive(!g.activeInHierarchy);
+            }
+        }
+        if (Input.GetKey(KeyCode.Alpha6))
+        {
+            foreach (GameObject g in _playerDeathVFX)
+            {
+                g.SetActive(!g.activeInHierarchy);
+            }
+        }
+        if (Input.GetKey(KeyCode.Alpha7))
+        {
+            foreach (GameObject g in _enemyBulletVFX)
+            {
+                g.SetActive(!g.activeInHierarchy);
+            }
+        }
+        if (Input.GetKey(KeyCode.Alpha8))
+        {
+            foreach (GameObject g in _ScoreVFX)
+            {
+                g.SetActive(!g.activeInHierarchy);
+            }
+        }
+    }
     public void NoMovementMode(bool isNowImmobile)//j'avais pas d'id�e de nom
     {
         _isImmobile = isNowImmobile;
@@ -144,6 +210,7 @@ public class Player : MonoBehaviour
         health--;
         //GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         lifeUI.UpdateDisplay();
+        ResetProjectilesConfig();
         if (health == 0)
         {
             EventManager.Instance.onPlayerDeath?.Invoke();
@@ -162,6 +229,12 @@ public class Player : MonoBehaviour
     //    //gameObject.transform.position = new Vector3(0, -4, 0);
     //    yield return null;
     //}
+    private void ResetProjectilesConfig()
+    {
+        projectiles = 1;
+        sideProjectile = false;
+        homingProjectile = false;
+    }
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Bonus"))

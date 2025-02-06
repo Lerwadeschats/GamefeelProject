@@ -40,10 +40,11 @@ public class LifeUI : MonoBehaviour
         
         currentLife--;
         Debug.Log($"Life: {currentLife} / {maxLife} Display: {lifeDisplay.Count}");
-        lifeDisplay[currentLife].color= new Color(1, 1, 1, 0);
-        if (currentLife < 0) {
+        if (currentLife < 0)
+        {
             currentLife = 0;
         }
+        lifeDisplay[currentLife].color= new Color(1, 1, 1, 0);
     }
 
     public void UpdateDisplay(int health)
