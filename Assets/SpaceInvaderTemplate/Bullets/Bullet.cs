@@ -40,5 +40,6 @@ public class Bullet : MonoBehaviour
     public void OnCollide()
     {
         Debug.Log("Bullet collided with something");
+        Destroy(gameObject);
     }
 }
