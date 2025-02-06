@@ -176,19 +176,7 @@ MonoBehaviour:
   text: {fileID: 24683602}
   _onUpdateScore:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1515886923}
-        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Feedbacks
-        m_MethodName: PlayFeedbacks
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &24683602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3451,6 +3439,7 @@ MonoBehaviour:
   - rid: 5398756177256120610
   - rid: 5398756177256120611
   - rid: 5398756177256120612
+  - rid: 5398756180131315712
   - rid: 5398756177256120613
   - rid: 5398756177256120614
   - rid: 5398756177678172160
@@ -7495,6 +7484,81 @@ MonoBehaviour:
           AmplitudeX: 1
           AmplitudeY: 1
           AmplitudeZ: 0
+    - rid: 5398756180131315712
+      type: {class: MMF_Particles, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
+      data:
+        Active: 1
+        UniqueID: 672415369
+        Label: Particles Play
+        ChannelMode: 0
+        Channel: 0
+        MMChannelDefinition: {fileID: 0}
+        Chance: 100
+        DisplayColor: {r: 0, g: 0, b: 0, a: 1}
+        Timing:
+          TimescaleMode: 0
+          ExcludeFromHoldingPauses: 0
+          ContributeToTotalDuration: 1
+          InitialDelay: 0
+          CooldownDuration: 0
+          InterruptsOnStop: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 1
+          MMFeedbacksDirectionCondition: 0
+          PlayDirection: 0
+          ConstantIntensity: 0
+          UseIntensityInterval: 0
+          IntensityIntervalMin: 0
+          IntensityIntervalMax: 0
+          Sequence: {fileID: 0}
+          TrackID: 0
+          Quantized: 0
+          TargetBPM: 120
+        AutomatedTargetAcquisition:
+          Mode: 0
+          ChildIndex: 0
+        RandomizeOutput: 0
+        RandomMultiplier: {x: 0.8, y: 1}
+        RandomizeDuration: 0
+        RandomDurationMultiplier: {x: 0.5, y: 2}
+        UseRange: 0
+        RangeDistance: 5
+        UseRangeFalloff: 0
+        RangeFalloff:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        RemapRangeFalloff: {x: 0, y: 1}
+        Owner: {fileID: 948127476}
+        DebugActive: 0
+        Mode: 1
+        BoundParticleSystem: {fileID: 797878001}
+        RandomParticleSystems: []
+        MoveToPosition: 0
+        ActivateOnPlay: 0
+        StopSystemOnInit: 1
+        DeclaredDuration: 0
 --- !u!4 &948127477
 Transform:
   m_ObjectHideFlags: 0
@@ -8596,7 +8660,19 @@ MonoBehaviour:
       m_Calls: []
   onLaserReady:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 797878001}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onLaserRelease:
     m_PersistentCalls:
       m_Calls: []
@@ -8872,7 +8948,7 @@ MonoBehaviour:
   rows: 3
   columns: 7
   invaderPrefab: {fileID: 9109969425864263349, guid: 7ab41d612eaa4c040b94ebea77be05a2, type: 3}
-  bounds: {x: 10, y: 4}
+  bounds: {x: 10, y: 3}
   difficultyProgress:
     serializedVersion: 2
     m_Curve:
