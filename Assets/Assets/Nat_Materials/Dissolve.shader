@@ -4,574 +4,134 @@ Shader "Dissolve"
 {
 	Properties
 	{
-		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
-		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
+		_TextureSample0("Texture Sample 0", 2D) = "white" {}
+		_TextureSample1("Texture Sample 1", 2D) = "white" {}
+		_Float0("Float 0", Float) = 1
+		_Float3("Float 3", Range( 0 , 10)) = 3.46566
+		_Float4("Float 4", Float) = 218.42
+		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
-		[HideInInspector][NoScaleOffset] unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
-        [HideInInspector][NoScaleOffset] unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
-        [HideInInspector][NoScaleOffset] unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
 	}
 
 	SubShader
 	{
-		LOD 0
-
 		
 
-		Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Transparent" "Queue"="Transparent" }
+		Tags { "RenderType"="Opaque" }
+	LOD 100
 
-		Cull Off
-
-		HLSLINCLUDE
-		#pragma target 2.0
-		#pragma prefer_hlslcc gles
-		// ensure rendering platforms toggle list is visible
-
-		#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-		#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Filtering.hlsl"
-
-		ENDHLSL
-
+		CGINCLUDE
+		#pragma target 3.0
+		ENDCG
+		Blend SrcAlpha OneMinusSrcAlpha
+		AlphaToMask Off
+		Cull Back
+		ColorMask RGBA
+		ZWrite On
+		ZTest LEqual
+		Offset 0 , 0
 		
-		Pass
-		{
-			Name "Sprite Unlit"
-            Tags { "LightMode"="Universal2D" }
-
-			Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
-			ZTest LEqual
-			ZWrite Off
-			Offset 0 , 0
-			ColorMask RGBA
-			
-
-			HLSLPROGRAM
-
-			#define ASE_VERSION 19801
-			#define ASE_SRP_VERSION 140011
-
-
-			#pragma vertex vert
-			#pragma fragment frag
-
-            #define _SURFACE_TYPE_TRANSPARENT 1
-            #define ATTRIBUTES_NEED_NORMAL
-            #define ATTRIBUTES_NEED_TANGENT
-            #define ATTRIBUTES_NEED_TEXCOORD0
-            #define ATTRIBUTES_NEED_COLOR
-            #define VARYINGS_NEED_POSITION_WS
-            #define VARYINGS_NEED_TEXCOORD0
-            #define VARYINGS_NEED_COLOR
-            #define FEATURES_GRAPH_VERTEX
-
-			#define SHADERPASS SHADERPASS_SPRITEUNLIT
-
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-
-			
-            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRendering.hlsl"
-           
-
-			
-            #if ASE_SRP_VERSION >=140009
-			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-			#endif
-		
-
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
-
-			#include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/SurfaceData2D.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Debug/Debugging2D.hlsl"
-
-			
-
-			
-
-			struct VertexInput
-			{
-				float4 positionOS : POSITION;
-				float3 normal : NORMAL;
-				float4 tangent : TANGENT;
-				float4 uv0 : TEXCOORD0;
-				float4 color : COLOR;
-				
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-
-			struct VertexOutput
-			{
-				float4 positionCS : SV_POSITION;
-				float4 texCoord0 : TEXCOORD0;
-				float4 color : TEXCOORD1;
-				float3 positionWS : TEXCOORD2;
-				
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-				UNITY_VERTEX_OUTPUT_STEREO
-			};
-
-			#if ETC1_EXTERNAL_ALPHA
-				TEXTURE2D(_AlphaTex); SAMPLER(sampler_AlphaTex);
-				float _EnableAlphaTexture;
-			#endif
-
-			float4 _RendererColor;
-
-			
-			VertexOutput vert( VertexInput v  )
-			{
-				VertexOutput o = (VertexOutput)0;
-
-				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_TRANSFER_INSTANCE_ID(v, o);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-
-				
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-					float3 defaultVertexValue = v.positionOS.xyz;
-				#else
-					float3 defaultVertexValue = float3(0, 0, 0);
-				#endif
-				float3 vertexValue = defaultVertexValue;
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-					v.positionOS.xyz = vertexValue;
-				#else
-					v.positionOS.xyz += vertexValue;
-				#endif
-				v.normal = v.normal;
-				v.tangent.xyz = v.tangent.xyz;
-
-				VertexPositionInputs vertexInput = GetVertexPositionInputs(v.positionOS.xyz);
-
-				o.positionCS = vertexInput.positionCS;
-				o.positionWS = vertexInput.positionWS;
-				o.texCoord0 = v.uv0;
-				o.color = v.color;
-				return o;
-			}
-
-			half4 frag( VertexOutput IN  ) : SV_Target
-			{
-				UNITY_SETUP_INSTANCE_ID(IN);
-				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
-
-				
-				float4 Color = float4( 1, 1, 1, 1 );
-
-				#if ETC1_EXTERNAL_ALPHA
-					float4 alpha = SAMPLE_TEXTURE2D(_AlphaTex, sampler_AlphaTex, IN.texCoord0.xy);
-					Color.a = lerp( Color.a, alpha.r, _EnableAlphaTexture);
-				#endif
-
-				#if defined(DEBUG_DISPLAY)
-				SurfaceData2D surfaceData;
-				InitializeSurfaceData(Color.rgb, Color.a, surfaceData);
-				InputData2D inputData;
-				InitializeInputData(IN.positionWS.xy, half2(IN.texCoord0.xy), inputData);
-				half4 debugColor = 0;
-
-				SETUP_DEBUG_DATA_2D(inputData, IN.positionWS);
-
-				if (CanDebugOverrideOutputColor(surfaceData, inputData, debugColor))
-				{
-					return debugColor;
-				}
-				#endif
-
-				Color *= IN.color * _RendererColor;
-				return Color;
-			}
-
-			ENDHLSL
-		}
 
 		
 		Pass
 		{
-			
-            Name "Sprite Unlit Forward"
-            Tags { "LightMode"="UniversalForward" }
+			Name "Unlit"
 
-			Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
-			ZTest LEqual
-			ZWrite Off
-			Offset 0 , 0
-			ColorMask RGBA
-			
-
-			HLSLPROGRAM
+			CGPROGRAM
 
 			#define ASE_VERSION 19801
-			#define ASE_SRP_VERSION 140011
 
 
+			#ifndef UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX
+			//only defining to not throw compilation error over Unity 5.5
+			#define UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input)
+			#endif
 			#pragma vertex vert
 			#pragma fragment frag
+			#pragma multi_compile_instancing
+			#include "UnityCG.cginc"
+			#define ASE_NEEDS_FRAG_COLOR
 
-            #define _SURFACE_TYPE_TRANSPARENT 1
-            #define ATTRIBUTES_NEED_NORMAL
-            #define ATTRIBUTES_NEED_TANGENT
-            #define ATTRIBUTES_NEED_TEXCOORD0
-            #define ATTRIBUTES_NEED_COLOR
-            #define VARYINGS_NEED_POSITION_WS
-            #define VARYINGS_NEED_TEXCOORD0
-            #define VARYINGS_NEED_COLOR
-            #define FEATURES_GRAPH_VERTEX
 
-			#define SHADERPASS SHADERPASS_SPRITEFORWARD
-
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-
-			
-            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRendering.hlsl"
-           
-
-			
-            #if ASE_SRP_VERSION >=140009
-			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-			#endif
-		
-
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
-
-			#include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/SurfaceData2D.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Debug/Debugging2D.hlsl"
-
-			
-
-			
-
-			struct VertexInput
+			struct appdata
 			{
-				float4 positionOS : POSITION;
-				float3 normal : NORMAL;
-				float4 tangent : TANGENT;
-				float4 uv0 : TEXCOORD0;
+				float4 vertex : POSITION;
 				float4 color : COLOR;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
-			struct VertexOutput
+			struct v2f
 			{
-				float4 positionCS : SV_POSITION;
-				float4 texCoord0 : TEXCOORD0;
-				float4 color : TEXCOORD1;
-				float3 positionWS : TEXCOORD2;
-				
+				float4 vertex : SV_POSITION;
+				#ifdef ASE_NEEDS_FRAG_WORLD_POSITION
+				float3 worldPos : TEXCOORD0;
+				#endif
+				float4 ase_color : COLOR;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
-			#if ETC1_EXTERNAL_ALPHA
-				TEXTURE2D( _AlphaTex ); SAMPLER( sampler_AlphaTex );
-				float _EnableAlphaTexture;
-			#endif
+			uniform sampler2D _TextureSample0;
+			uniform float4 _TextureSample0_ST;
+			uniform float _Float4;
+			uniform float _Float0;
+			uniform sampler2D _TextureSample1;
+			uniform float _Float3;
 
-			float4 _RendererColor;
 
-			
-			VertexOutput vert( VertexInput v  )
+			v2f vert ( appdata v )
 			{
-				VertexOutput o = (VertexOutput)0;
+				v2f o;
 				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
 
-				
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-					float3 defaultVertexValue = v.positionOS.xyz;
-				#else
-					float3 defaultVertexValue = float3( 0, 0, 0 );
+				o.ase_color = v.color;
+				o.ase_texcoord1 = v.ase_texcoord;
+				float3 vertexValue = float3(0, 0, 0);
+				#if ASE_ABSOLUTE_VERTEX_POS
+				vertexValue = v.vertex.xyz;
 				#endif
-				float3 vertexValue = defaultVertexValue;
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-					v.positionOS.xyz = vertexValue;
+				vertexValue = vertexValue;
+				#if ASE_ABSOLUTE_VERTEX_POS
+				v.vertex.xyz = vertexValue;
 				#else
-					v.positionOS.xyz += vertexValue;
+				v.vertex.xyz += vertexValue;
 				#endif
-				v.normal = v.normal;
-				v.tangent.xyz = v.tangent.xyz;
+				o.vertex = UnityObjectToClipPos(v.vertex);
 
-				VertexPositionInputs vertexInput = GetVertexPositionInputs(v.positionOS.xyz);
-
-				o.positionCS = vertexInput.positionCS;
-				o.positionWS = vertexInput.positionWS;
-				o.texCoord0 = v.uv0;
-				o.color = v.color;
-
+				#ifdef ASE_NEEDS_FRAG_WORLD_POSITION
+				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				#endif
 				return o;
 			}
 
-			half4 frag( VertexOutput IN  ) : SV_Target
+			fixed4 frag (v2f i ) : SV_Target
 			{
-				UNITY_SETUP_INSTANCE_ID(IN);
-				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
-
+				UNITY_SETUP_INSTANCE_ID(i);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+				fixed4 finalColor;
+				#ifdef ASE_NEEDS_FRAG_WORLD_POSITION
+				float3 WorldPosition = i.worldPos;
+				#endif
+				float2 uv_TextureSample0 = i.ase_texcoord1.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float4 temp_output_28_0 = ( ( i.ase_color * tex2D( _TextureSample0, uv_TextureSample0 ) ) * _Float4 );
+				float2 temp_cast_1 = (_Float3).xx;
+				float2 texCoord24 = i.ase_texcoord1.xy * temp_cast_1 + float2( 0,0 );
+				float smoothstepResult11 = smoothstep( 0.0 , (0.0 + (i.ase_texcoord1.z - 0.0) * (1.0 - 0.0) / (1.0 - 0.0)) , tex2D( _TextureSample1, (texCoord24*1.0 + 0.0) ).r);
+				float smoothstepResult21 = smoothstep( 0.0 , 0.2 , ( _Float0 - smoothstepResult11 ));
+				float4 appendResult40 = (float4(temp_output_28_0.rgb , saturate( ( saturate( smoothstepResult21 ) * (temp_output_28_0).a ) )));
 				
-				float4 Color = float4( 1, 1, 1, 1 );
 
-				#if ETC1_EXTERNAL_ALPHA
-					float4 alpha = SAMPLE_TEXTURE2D( _AlphaTex, sampler_AlphaTex, IN.texCoord0.xy );
-					Color.a = lerp( Color.a, alpha.r, _EnableAlphaTexture );
-				#endif
-
-
-				#if defined(DEBUG_DISPLAY)
-					SurfaceData2D surfaceData;
-					InitializeSurfaceData(Color.rgb, Color.a, surfaceData);
-					InputData2D inputData;
-					InitializeInputData(IN.positionWS.xy, half2(IN.texCoord0.xy), inputData);
-					half4 debugColor = 0;
-
-					SETUP_DEBUG_DATA_2D(inputData, IN.positionWS);
-
-					if (CanDebugOverrideOutputColor(surfaceData, inputData, debugColor))
-					{
-						return debugColor;
-					}
-				#endif
-
-				Color *= IN.color * _RendererColor;
-				return Color;
+				finalColor = appendResult40;
+				return finalColor;
 			}
-
-			ENDHLSL
+			ENDCG
 		}
-		
-        Pass
-        {
-			
-            Name "SceneSelectionPass"
-            Tags { "LightMode"="SceneSelectionPass" }
-
-            Cull Off
-
-            HLSLPROGRAM
-
-			#define ASE_VERSION 19801
-			#define ASE_SRP_VERSION 140011
-
-
-			#pragma vertex vert
-			#pragma fragment frag
-
-            #define _SURFACE_TYPE_TRANSPARENT 1
-            #define ATTRIBUTES_NEED_NORMAL
-            #define ATTRIBUTES_NEED_TANGENT
-            #define FEATURES_GRAPH_VERTEX
-
-            #define SHADERPASS SHADERPASS_DEPTHONLY
-			#define SCENESELECTIONPASS 1
-
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-
-			
-            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRendering.hlsl"
-           
-
-			
-            #if ASE_SRP_VERSION >=140009
-			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-			#endif
-		
-
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
-
-			
-
-			
-
-            struct VertexInput
-			{
-				float3 positionOS : POSITION;
-				float3 normal : NORMAL;
-				float4 tangent : TANGENT;
-				
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-
-			struct VertexOutput
-			{
-				float4 positionCS : SV_POSITION;
-				
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-
-            int _ObjectId;
-            int _PassValue;
-
-			
-			VertexOutput vert(VertexInput v )
-			{
-				VertexOutput o = (VertexOutput)0;
-
-				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_TRANSFER_INSTANCE_ID(v, o);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-
-				
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-					float3 defaultVertexValue = v.positionOS.xyz;
-				#else
-					float3 defaultVertexValue = float3(0, 0, 0);
-				#endif
-				float3 vertexValue = defaultVertexValue;
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-					v.positionOS.xyz = vertexValue;
-				#else
-					v.positionOS.xyz += vertexValue;
-				#endif
-
-				VertexPositionInputs vertexInput = GetVertexPositionInputs(v.positionOS.xyz);
-				float3 positionWS = TransformObjectToWorld(v.positionOS);
-				o.positionCS = TransformWorldToHClip(positionWS);
-
-				return o;
-			}
-
-			half4 frag(VertexOutput IN) : SV_TARGET
-			{
-				
-				float4 Color = float4( 1, 1, 1, 1 );
-
-				half4 outColor = half4(_ObjectId, _PassValue, 1.0, 1.0);
-				return outColor;
-			}
-
-            ENDHLSL
-        }
-
-		
-        Pass
-        {
-			
-            Name "ScenePickingPass"
-            Tags { "LightMode"="Picking" }
-
-			Cull Off
-
-            HLSLPROGRAM
-
-			#define ASE_VERSION 19801
-			#define ASE_SRP_VERSION 140011
-
-
-			#pragma vertex vert
-			#pragma fragment frag
-
-            #define _SURFACE_TYPE_TRANSPARENT 1
-            #define ATTRIBUTES_NEED_NORMAL
-            #define ATTRIBUTES_NEED_TANGENT
-            #define FEATURES_GRAPH_VERTEX
-
-            #define SHADERPASS SHADERPASS_DEPTHONLY
-			#define SCENEPICKINGPASS 1
-
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-
-			
-            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRendering.hlsl"
-           
-
-			
-            #if ASE_SRP_VERSION >=140009
-			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-			#endif
-		
-
-			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
-
-        	
-
-			
-
-            struct VertexInput
-			{
-				float3 positionOS : POSITION;
-				float3 normal : NORMAL;
-				float4 tangent : TANGENT;
-				
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-
-			struct VertexOutput
-			{
-				float4 positionCS : SV_POSITION;
-				
-				UNITY_VERTEX_INPUT_INSTANCE_ID
-			};
-
-            float4 _SelectionID;
-
-			
-			VertexOutput vert(VertexInput v  )
-			{
-				VertexOutput o = (VertexOutput)0;
-
-				UNITY_SETUP_INSTANCE_ID(v);
-				UNITY_TRANSFER_INSTANCE_ID(v, o);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-
-				
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-					float3 defaultVertexValue = v.positionOS.xyz;
-				#else
-					float3 defaultVertexValue = float3(0, 0, 0);
-				#endif
-				float3 vertexValue = defaultVertexValue;
-				#ifdef ASE_ABSOLUTE_VERTEX_POS
-					v.positionOS.xyz = vertexValue;
-				#else
-					v.positionOS.xyz += vertexValue;
-				#endif
-
-				VertexPositionInputs vertexInput = GetVertexPositionInputs(v.positionOS.xyz);
-				float3 positionWS = TransformObjectToWorld(v.positionOS);
-				o.positionCS = TransformWorldToHClip(positionWS);
-
-				return o;
-			}
-
-			half4 frag(VertexOutput IN ) : SV_TARGET
-			{
-				
-				float4 Color = float4( 1, 1, 1, 1 );
-				half4 outColor = _SelectionID;
-				return outColor;
-			}
-
-            ENDHLSL
-        }
-		
 	}
-	CustomEditor "UnityEditor.ShaderGraph.GenericShaderGraphMaterialGUI"
-	FallBack "Hidden/Shader Graph/FallbackError"
+	CustomEditor "AmplifyShaderEditor.MaterialInspector"
 	
 	Fallback Off
 }
@@ -595,16 +155,14 @@ Node;AmplifyShaderEditor.SmoothstepOpNode;21;304,256;Inherit;True;3;0;FLOAT;0;Fa
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;28;208,-328;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SaturateNode;16;560,144;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ComponentMaskNode;41;496,-80;Inherit;False;False;False;False;True;1;0;COLOR;0,0,0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;42;768,-256;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;42;800,-96;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;44;928,-112;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector4Node;37;-1616,544;Inherit;False;Constant;_Vector0;Vector 0;5;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;17;-1648,736;Inherit;False;Property;_Float1;Float 1;2;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GradientNode;27;-1360,-416;Inherit;False;0;4;2;1,0,0,0;1,0.8615026,0.02830172,0.5023575;1,0.4509434,0.7310807,0.8223545;1,1,1,1;1,0;1,1;0;1;OBJECT;0
 Node;AmplifyShaderEditor.SmoothstepOpNode;26;-368,320;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;40;1008,-224;Inherit;False;COLOR;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;64;1168,-80;Float;False;True;-1;3;UnityEditor.ShaderGraph.GenericShaderGraphMaterialGUI;0;15;Dissolve;cf964e524c8e69742b1d21fbe2ebcc4a;True;Sprite Unlit;0;0;Sprite Unlit;4;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;True;2;5;False;;10;False;;3;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;;0;0;Standard;3;Vertex Position;1;0;Debug Display;0;0;External Alpha;0;0;0;4;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;65;1168,-80;Float;False;False;-1;3;UnityEditor.ShaderGraph.GenericShaderGraphMaterialGUI;0;1;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;Sprite Unlit Forward;0;1;Sprite Unlit Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;True;2;5;False;;10;False;;3;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;66;1168,-80;Float;False;False;-1;3;UnityEditor.ShaderGraph.GenericShaderGraphMaterialGUI;0;1;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;SceneSelectionPass;0;2;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;67;1168,-80;Float;False;False;-1;3;UnityEditor.ShaderGraph.GenericShaderGraphMaterialGUI;0;1;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;ScenePickingPass;0;3;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.DynamicAppendNode;40;1088,-240;Inherit;False;COLOR;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;43;1344,-128;Float;False;True;-1;3;AmplifyShaderEditor.MaterialInspector;100;5;Dissolve;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;True;2;5;False;;10;False;;0;1;False;;0;False;;True;0;False;;0;False;;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;RenderType=Opaque=RenderType;True;2;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;0;1;True;False;;False;0
 WireConnection;24;0;25;0
 WireConnection;23;0;24;0
 WireConnection;20;0;39;3
@@ -623,7 +181,9 @@ WireConnection;16;0;21;0
 WireConnection;41;0;28;0
 WireConnection;42;0;16;0
 WireConnection;42;1;41;0
+WireConnection;44;0;42;0
 WireConnection;40;0;28;0
-WireConnection;40;3;42;0
+WireConnection;40;3;44;0
+WireConnection;43;0;40;0
 ASEEND*/
-//CHKSM=9B31CDFAB1BF84F082AE99997612D2DBFBAB4A0B
+//CHKSM=585D3CF9AD5AB262BC0F37A3D8052C3BF4968061
