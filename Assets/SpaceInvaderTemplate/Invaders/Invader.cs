@@ -49,7 +49,7 @@ public class Invader : MonoBehaviour
                 Death();
             }
             GameManager.Instance.Score += _value;
-            Destroy(gameObject);
+            //Destroy(gameObject);
             return;
         }
 
