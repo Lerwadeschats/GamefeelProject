@@ -40,7 +40,14 @@ public class Invader : MonoBehaviour
 
         if (collision.gameObject.tag == "Laser")
         {
-            onEnemyDeathLaser.Invoke();
+            if(GameManager.Instance._enemyDeathVFX)
+            {
+                onEnemyDeathLaser.Invoke();
+            }
+            else
+            {
+                Death();
+            }
             GameManager.Instance.Score += _value;
             Destroy(gameObject);
             return;
@@ -52,11 +59,21 @@ public class Invader : MonoBehaviour
         _hp--;
         if (_hp > 0)
         {
-           onEnemeyDamageTaken.Invoke();
+            if(GameManager.Instance._enemyDmgTakenVFX)
+            {
+                onEnemeyDamageTaken.Invoke();
+            }
         }
         else
         {
-            onEnemyDeathBullet.Invoke();
+            if (GameManager.Instance._enemyDeathVFX)
+            {
+                onEnemyDeathBullet.Invoke();
+            }
+            else
+            {
+                Death();
+            }
             GameManager.Instance.Score += _value;
             List<BonusType> bonusAvailable = Player.Instance.GetBonusAvailable();
             if (bonusAvailable.Count > 0 && UnityEngine.Random.Range(0, 100) < 10)
@@ -71,7 +88,10 @@ public class Invader : MonoBehaviour
 
     public void Shoot()
     {
-        onEnemyShoot.Invoke();
+        if (GameManager.Instance._enemyShotVFX)
+        {
+            onEnemyShoot.Invoke();
+        }
         Instantiate(bulletPrefab, shootAt.position, Quaternion.identity);
     }
     public void Death()

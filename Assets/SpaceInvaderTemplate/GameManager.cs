@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
 
     public bool _playerBulletTrailVFX;
     public bool _LaserVFX;
+    public bool _enemyShotVFX;
+    public bool _enemyDmgTakenVFX;
+    public bool _enemyDeathVFX;
 
     [SerializeField]private int _score;
 

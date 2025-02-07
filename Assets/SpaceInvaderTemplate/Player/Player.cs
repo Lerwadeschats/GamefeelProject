@@ -29,10 +29,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] GameObject _trail;
     [SerializeField] List<GameObject> _lazerVFX;
-    [SerializeField] List<GameObject> _enemyDeathVFX;
     [SerializeField] List<GameObject> _damageTakenVFX;
-    [SerializeField] List<GameObject> _playerDeathVFX;
-    [SerializeField] List<GameObject> _enemyBulletVFX;
     [SerializeField] List<GameObject> _ScoreVFX;
 
      [SerializeField] UnityEvent _onShoot;
@@ -126,10 +123,8 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            foreach (GameObject g in _enemyDeathVFX)
-            {
-                g.SetActive(!g.activeInHierarchy);
-            }
+            GameManager.Instance._enemyShotVFX = !GameManager.Instance._enemyShotVFX;
+
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
@@ -140,17 +135,11 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            foreach (GameObject g in _playerDeathVFX)
-            {
-                g.SetActive(!g.activeInHierarchy);
-            }
+             GameManager.Instance._enemyDmgTakenVFX = !GameManager.Instance._enemyDmgTakenVFX;
         }
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            foreach (GameObject g in _enemyBulletVFX)
-            {
-                g.SetActive(!g.activeInHierarchy);
-            }
+            GameManager.Instance._enemyDeathVFX = !GameManager.Instance._enemyDeathVFX;
         }
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
